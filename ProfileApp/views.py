@@ -1,4 +1,4 @@
-#from django.core.mail import send_mail
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, request
 from django.contrib import messages
@@ -48,10 +48,7 @@ def signup_view(request):
             user.refresh_from_db()
             user.profile.first_name = form.cleaned_data.get('first_name')
             user.profile.last_name = form.cleaned_data.get('last_name')
-            user.profile.gender = form.cleaned_data.get('gender')
             user.profile.email = form.cleaned_data.get('email')
-            user.profile.course = form.cleaned_data.get('course')
-            user.profile.mobile = form.cleaned_data.get('mobile')
             # user can't login until link confirmed
             user.is_active = False
             user.save()
@@ -65,7 +62,7 @@ def signup_view(request):
                 'token': account_activation_token.make_token(user),
             })
             print(message)
-            # send_mail(subject, message, settings.EMAIL_HOST_USER, [user.profile.email], fail_silently=False,)
+            # send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False,)
             mail = requests.post(
 		        "https://api.mailgun.net/v3/sandboxf50c09da3c1a448ca6218444da66f2f1.mailgun.org/messages",
 		        auth=("api", "c9fe7686a4f1fcc9daf6269e5468f314-4b1aa784-40682657"),
@@ -77,7 +74,7 @@ def signup_view(request):
             return redirect('activation_sent')
     else:
         form = SignUpForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form, 'page_title':'Signup'})
 
 
 def Login(request):
@@ -95,7 +92,7 @@ def Login(request):
                     return HttpResponseRedirect('/profile/')
         else:
             fm = AuthenticationForm()
-        return render(request, 'login.html', {'form': fm})
+        return render(request, 'login.html', {'form': fm, 'page_title':'Login'})
     else:
         return HttpResponseRedirect('/login/')
 
@@ -117,7 +114,7 @@ def activate(request, uidb64, token):
 
 def Profile(request):
     if request.user.is_authenticated:
-        return render(request, 'profile.html', {'name': request.user})
+        return render(request, 'profile.html', {'name': request.user, 'page_title':'Profile'})
     else:
         return HttpResponseRedirect('/login/')
 

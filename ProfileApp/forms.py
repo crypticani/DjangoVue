@@ -6,8 +6,34 @@ from django.contrib.auth.models import User
 
 
 class SignUpForm(UserCreationForm):
-    username = forms.CharField(max_length=30, help_text='user Name')
-    email = forms.EmailField(max_length=150, help_text='Email')
+    username = forms.CharField(max_length=30, help_text='user Name',
+        widget=forms.TextInput(
+            attrs={
+            'class':'block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow',
+            'placeholder':'Your Username'
+            }
+    ))
+    email = forms.EmailField(max_length=150, help_text='Email',
+        widget=forms.TextInput(
+            attrs={
+            'class':'block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow',
+            'placeholder':'Your Email'
+            }
+    ))
+    password1 = forms.CharField(max_length=30, help_text='Password',
+        widget=forms.PasswordInput(
+            attrs={
+            'class':'block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow',
+            'placeholder':'Password'
+            }
+    ))
+    password2 = forms.CharField(max_length=30, help_text='Confirm Password',
+        widget=forms.PasswordInput(
+            attrs={
+            'class':'block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow',
+            'placeholder':'Confirm Password'
+            }
+    ))
 
     class Meta:
         model = User

@@ -1,32 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-<div id="signup">
-<h2>Sign up</h2>
-<form method="post">
+<div id="signup" class="container mx-auto h-full flex justify-center items-center">
+<div class="w-1/3">
+  <h1 class="font-hairline mb-6 text-center text-2xl">Sign up</h2>
+  <div class="border-blue-600 p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
+  <form method="post">
   {% csrf_token %}
   {% for field in form %}
     <p>
-      {{ field.label_tag }}<br>
-      {{ field }}
+      {% comment %} {{ field.label_tag }}<br> {% endcomment %}
+      {{ field }} <br>
       {% for error in field.errors %}
         <p style="color: red">{{ error }}</p>
       {% endfor %}
     </p>
   {% endfor %}
-  <button type="submit">Sign up</button>
-  <br><br>
-  <button>Already have account? <a href="{% url 'login' %}">Login</a></button>
+  <br>
+        <button class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" type="submit" v-on:click="">Signup</button>
+        <br><br>
+  <p class="text-grey-dark text-sm">Already have an account?<a href="{% url 'login' %}" class="no-underline text-blue-600 font-bold"> Login</a></p>
 </form>
 </div>
-<style scoped>
-    #signup {
-        width: 500px;
-        border: 1px solid #CCCCCC;
-        background-color: #FFFFFF;
-        margin: auto;
-        margin-top: 200px;
-        padding: 20px;
-        text-align: center;
-    }
-</style>
+</div>
+</div>
 {% endblock %}
