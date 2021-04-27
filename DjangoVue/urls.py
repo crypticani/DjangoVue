@@ -30,7 +30,7 @@ urlpatterns = [
     path('accounts/profile/', Profile, name='profile'),
     path('sent/', activation_sent_view, name="activation_sent"),
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
-    path('activate/<slug:uidb64>/<slug:token>/user/login',
+    path('activate/<slug:uidb64>/<slug:token>/login',
          auth_views.LoginView.as_view(redirect_authenticated_user=True, template_name='login.html'), name='login'),
     path('invalid', activation_invalid_view, name="activation_invalid"),
     path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True, template_name='login.html'),

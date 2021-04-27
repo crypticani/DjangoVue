@@ -1,17 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Signup</title>
-</head>
-<body>
-
-<br><br><br><br>
-<div class="container">
-<div class="col-lg-5"></div>
-<div class="col-lg-4 bg-warning">
-<br>
+{% extends 'base.html' %}
+{% block content %}
+<div id="signup">
 <h2>Sign up</h2>
 <form method="post">
   {% csrf_token %}
@@ -24,11 +13,20 @@
       {% endfor %}
     </p>
   {% endfor %}
-  <button type="submit" class="btn btn-outline-primary">Sign up</button>
+  <button type="submit">Sign up</button>
+  <br><br>
+  <button>Already have account? <a href="{% url 'login' %}">Login</a></button>
 </form>
-<br>
 </div>
-</div>
-<br><br>
-</body>
-</html>
+<style scoped>
+    #signup {
+        width: 500px;
+        border: 1px solid #CCCCCC;
+        background-color: #FFFFFF;
+        margin: auto;
+        margin-top: 200px;
+        padding: 20px;
+        text-align: center;
+    }
+</style>
+{% endblock %}

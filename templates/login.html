@@ -1,96 +1,40 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <script src="https://unpkg.com/vue"></script>
+  {% block content %}
 
-</head>
-<body>
-<br><br><br><br>
-<div class="container">
-{% comment %} <div class="login">
-{% if messages %}
-    {% for message in messages %}
-        <small {% if message.tags %}>
-            {{message.tags}}
-            {% endif %}
-        </small>
-    {% endfor%}
-{% endif %}
-    <div class="content-section col-md-8 col-md-offset-2 bg-warning">
-    <br>
-    <h2>Login</h2><br>
-  <form method="POST">
-    {% csrf_token %}
-{% for field in form %}
-    <p>
-      {{ field.label_tag }}<br>
-      {{ field }}
-      {% if field.help_text %}
-        <small style="color: grey">{{ field.help_text }}</small>
-      {% endif %}
-      {% for error in field.errors %}
-        <sub style="color: red">{{ error }}</sub>
-      {% endfor %}
-    </p>
-  {% endfor %}
-
-    <button class="btn btn-outline-primary" type="submit">Login</button>
-
-  <br>
-  <button class="btn btn-group-lg">Don't have account? <a href="{% url 'register' %}">Create Account</a></button>
-  </form>
-    <br>
- </div>
-</div> {% endcomment %}
-
-{% comment %} <div id="login">
+<div id="login">
         <h1>Login</h1>
         <form method="POST">
         {% csrf_token %}
-        <input type="text" name="username" v-model="input.username" placeholder="Username" />
+           {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %} 
+              <div class="alert alert-danger">
+                   <p style="color: red">{{ error }}</p>
+              </div>
+           {% endfor %}
+       {% endfor %}
+    {% endif %}
+        <input type="text" name="username" v-model="input.username" placeholder="Email" />
+        
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
-        <button type="submit">Login</button>
+      
+        <button type="submit" v-on:click="">Login</button>
+        <br><br>
+        <button>Don't have account? <a href="{% url 'register' %}">Create Account</a></button>
         </form>
-</div> {% endcomment %}
-<template>
-    <div id="login">
-        <h1>Login</h1>
-        <input type="text" name="username" v-model="input.username" placeholder="Username" />
-        <input type="password" name="password" v-model="input.password" placeholder="Password" />
-        <button type="button" v-on:click="login()">Login</button>
-    </div>
-</template>
+        
+</div>
 
-<script>
-    export default {
-        name: 'Login',
-        data() {
-            return {
-                input: {
-                    username: "",
-                    password: ""
-                }
-            }
-        },
-        methods: {
-            login() {
-                if(this.input.username != "" && this.input.password != "") {
-                    if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-                        this.$emit("authenticated", true);
-                        this.$router.replace({ name: "secure" });
-                    } else {
-                        console.log("The username and / or password is incorrect");
-                    }
-                } else {
-                    console.log("A username and password must be present");
-                }
-            }
-        }
+<style scoped>
+    #login {
+        width: 500px;
+        border: 1px solid #CCCCCC;
+        background-color: #FFFFFF;
+        margin: auto;
+        margin-top: 200px;
+        padding: 20px;
+        text-align: center;
     }
-</script>
-</body>
-</html>
+</style>
+{% endblock %}

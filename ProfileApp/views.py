@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+#from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, request
 from django.contrib import messages
@@ -13,6 +13,7 @@ from .forms import SignUpForm
 from . import models
 from .tokens import account_activation_token
 from django.template.loader import render_to_string
+import requests
 
 
 def activation_sent_view(request):
@@ -25,11 +26,8 @@ def activate(request, uidb64, token, account_activation_token=None):
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    # checking if the user exists, if the token is valid.
     if user is not None and account_activation_token.check_token(user, token):
-        # if valid set active true 
         user.is_active = True
-        # set signup_confirmation true
         user.profile.signup_confirmation = True
         user.save()
         login(request, user)
@@ -66,7 +64,16 @@ def signup_view(request):
                 # method will generate a hash value with user related data
                 'token': account_activation_token.make_token(user),
             })
-            send_mail(subject, message, settings.EMAIL_HOST_USER, [user.profile.email], fail_silently=False,)
+            print(message)
+            # send_mail(subject, message, settings.EMAIL_HOST_USER, [user.profile.email], fail_silently=False,)
+            mail = requests.post(
+		        "https://api.mailgun.net/v3/sandboxf50c09da3c1a448ca6218444da66f2f1.mailgun.org/messages",
+		        auth=("api", "c9fe7686a4f1fcc9daf6269e5468f314-4b1aa784-40682657"),
+		        data={"from": "Mailgun Sandbox <postmaster@sandboxf50c09da3c1a448ca6218444da66f2f1.mailgun.org>",
+			        "to": user.email,
+			        "subject": subject,
+			        "text": message})
+            print(mail)
             return redirect('activation_sent')
     else:
         form = SignUpForm()
@@ -80,9 +87,10 @@ def Login(request):
             if fm.is_valid():
                 uname = fm.cleaned_data['username']
                 upass = fm.cleaned_data['password']
-                user = authenticate(username=uname, password=upass)
-                if user is not None:
-                    login(request, user)
+                if uname and upass:
+                    user = authenticate(username=uname, password=upass)
+                    if user is not None:
+                        login(request, user)
                     messages.success(request, 'Logged in successfully!!!')
                     return HttpResponseRedirect('/profile/')
         else:
@@ -98,11 +106,8 @@ def activate(request, uidb64, token):
         user = User.objects.get(id=uid)
     except (TypeError, ValueError, OverflowError):
         user = None
-    # checking if the user exists, if the token is valid.
     if user is not None and account_activation_token.check_token(user, token):
-        # if valid set active true
         user.is_active = True
-        # set signup_confirmation true
         user.profile.signup_confirmation = True
         user.save()
         return HttpResponseRedirect('login')
@@ -110,7 +115,6 @@ def activate(request, uidb64, token):
         return render(request, 'activation_invalid.html')
 
 
-# Edit Profile View
 def Profile(request):
     if request.user.is_authenticated:
         return render(request, 'profile.html', {'name': request.user})
