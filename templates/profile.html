@@ -7,9 +7,10 @@
         <h1 class="font-hairline mb-6 text-center text-2xl">Profile</h1>
         <div class="border-blue-600 p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
         {% if user.is_authenticated %}
-        {{ user.email }} <br>
-        {{ user.username }}
-    <br><br>
+        <i class="fas fa-user fa-5x" style="float:left"></i> &nbsp;&nbsp;
+        <b>Email: </b>{{ user.email }} <br>&nbsp;&nbsp;
+        <b>Username: </b>{{ user.username }}
+    <br><br>&nbsp;&nbsp;
     <a href="{% url 'logout' %}" ><button class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">Logout</button></a>
 {% else %}
    <h1>Invalid Access.</h1>

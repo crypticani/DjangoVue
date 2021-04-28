@@ -121,7 +121,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# AUTHENTICATION_BACKENDS = ('ProfileApp.auth_backend.CustomBackend',)
 AUTHENTICATION_BACKENDS = ['ProfileApp.auth_backend.EmailBackend']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

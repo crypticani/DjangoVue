@@ -1,8 +1,24 @@
-{% load static %}
+<html>
+  <head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+    <title>{{page_title}}</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src="https://unpkg.com/vue-router@2.0.0"></script>
+    <link rel="stylesheet" type="text/css" href="https://pagecdn.io/lib/tailwindcss/1.6.2/tailwind.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+  </head>
+  <body>
+    {% block content %}
+
+{% endblock %} 
+  </body>
+</html>
+
+{% comment %} <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,13 +27,6 @@
     <script src="https://unpkg.com/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
     <link rel="stylesheet" type="text/css" href="https://pagecdn.io/lib/tailwindcss/1.6.2/tailwind.min.css">
-</head>
-<body>
-<br><br><br><br>
-<div class="container">
-{% block content %}
+</head> {% endcomment %}
 
-{% endblock %} 
-</div>
-</body>
-</html>
+
